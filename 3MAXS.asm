@@ -1,0 +1,75 @@
+//FINDING THE MAXIMUM B/W N NUMBERS
+
+F000: 4     ;TOTAL NUMBERS
+F001: 02    
+F002: 05    A,M
+F003: 10
+F004: 11
+
+M1=MIN
+M2=MIN
+M3=MIN
+FOR(I=0;I<N;I++){
+    IF(A[I]>M1){
+        M3=M2
+        M2=M1
+        M1=A[I]
+    }
+    ELSE IF(A[I]>M2 && A[I]<M1){
+        M3=M2
+        M2=A[I]
+    }
+    ELSE IF(A[I]>M3 && A[I]<M2){
+        M3=A[I]
+    }
+}
+
+LXI H,F000
+MOV B,M
+INX H
+MOV A,M
+DCR B
+L2:INX H
+CMP M
+JC L1
+MOV A,M
+L1:DCR B
+JNZ L2
+LXI H,F000
+MOV C,M
+MOV D,A  #M1
+MOV E,A  #M2
+MOV B,A  #M3
+L8: INX H
+MOV A,M
+CMP D
+JC L3
+JZ L5
+MOV B,E
+MOV E,D
+MOV D,A
+JMP L5
+L3:CMP E
+JC L4
+JZ L5
+CMP D
+JZ L5
+MOV B,E
+MOV E,A
+JMP L5
+L4:CMP B
+JC L5
+JZ L5
+CMP E
+JZ L5
+MOV B,A 
+L5: DCR C
+JNZ L8
+MOV A,D
+STA FF01
+MOV A,E
+STA FF02
+MOV A,B
+STA FF03
+HLT
+
