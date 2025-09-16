@@ -1,0 +1,12 @@
+//binary to gray convertion
+F000: B3
+F001: EA
+
+LXI H,F000H
+MOV B,M
+MOV A,M
+RRC
+ANI 7F
+XRA B
+STA F001H
+HLT
